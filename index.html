@@ -1,0 +1,152 @@
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Encode.com</title>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&amp;display=swap" rel="stylesheet">
+   <meta property="og:title" content="Lindencoder">
+   <meta property="og:description" content="A website made by TFTLinden.">
+   <meta property="og:image" content="https://raw.githubusercontent.com/LindVercel/encoder/refs/heads/main/Screenshot%202024-12-01%20212619.png">
+   <meta property="og:url" content="https://lindencoder.vercel.app/">
+   <meta property="og:type" content="website">
+   <meta name="twitter:card" content="summary_large_image">
+   <meta name="twitter:title" content="Lindencoder">
+   <meta name="twitter:description" content="A website made by TFTLinden.">
+   <meta name="twitter:image" content="https://raw.githubusercontent.com/LindVercel/encoder/refs/heads/main/Screenshot%202024-12-01%20212619.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Encoding Tool</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2rem;
+            color: #495057;
+        }
+        p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: #6c757d;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: inherit;
+            margin-bottom: 20px;
+            resize: none;
+            box-sizing: border-box;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .output-box {
+            background-color: #f1f3f5;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            padding: 15px;
+            font-size: 16px;
+            word-wrap: break-word;
+            word-break: break-word;
+            min-height: 80px;
+        }
+        footer {
+            margin-top: 20px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Custom Encoding Tool</h1>
+        <p>Type your text below to encode or decode using the custom format.</p>
+        <textarea id="inputText" placeholder="Enter text here..."></textarea>
+        <div class="button-group">
+            <button onclick="encodeText()">Encode</button>
+            <button onclick="decodeText()">Decode</button>
+        </div>
+        <div class="output-box" id="outputText">ca9'cA13 cA19cA20cA9cA12cA12 cA6cA5cA5cA12cA9cA14cA7 cA9cA20</div>
+    </div>
+    <footer>
+        Made by TFTLinden.
+    </footer>
+    <script>
+        const encodingMap = {
+            a: "cA1", b: "cA2", c: "cA3", d: "cA4", e: "cA5", f: "cA6", g: "cA7", h: "cA8", i: "cA9", j: "cA10",
+            k: "cA11", l: "cA12", m: "cA13", n: "cA14", o: "cA15", p: "cA16", q: "cA17", r: "cA18", s: "cA19", t: "cA20",
+            u: "cA21", v: "cA22", w: "cA23", x: "cA24", y: "cA25", z: "cA26",
+            A: "ca1", B: "ca2", C: "ca3", D: "ca4", E: "ca5", F: "ca6", G: "ca7", H: "ca8", I: "ca9", J: "ca10",
+            K: "ca11", L: "ca12", M: "ca13", N: "ca14", O: "ca15", P: "ca16", Q: "ca17", R: "ca18", S: "ca19", T: "ca20",
+            U: "ca21", V: "ca22", W: "ca23", X: "ca24", Y: "ca25", Z: "ca26",
+            1: "9n5", 2: "8n5", 3: "7n5", 4: "6n5", 5: "5n5", 6: "4n5", 7: "3n5", 8: "2n5", 9: "1n5", 0: "0n5"
+        };
+
+        const decodingMap = Object.fromEntries(Object.entries(encodingMap).map(([key, value]) => [value, key]));
+
+        function encodeText() {
+            const input = document.getElementById("inputText").value;
+            const encoded = input.split("").map(char => encodingMap[char] || char).join("");
+            document.getElementById("outputText").innerText = encoded;
+        }
+
+        function decodeText() {
+            const input = document.getElementById("inputText").value;
+            let decoded = input;
+
+            // Sort the encoded keys by length (longest first)
+            const sortedKeys = Object.keys(decodingMap).sort((a, b) => b.length - a.length);
+
+            sortedKeys.forEach(encodedChar => {
+                decoded = decoded.split(encodedChar).join(decodingMap[encodedChar]);
+            });
+
+            document.getElementById("outputText").innerText = decoded;
+        }
+    </script>
+
+
+</body>
